@@ -1,14 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { colorTheme } from "../styles/colorTheme";
-import Step from "../ui/StepList";
+import Step from "./StepList";
 
 const Wrap = styled.nav`
   background-image: url("./src/assets/images/bg-sidebar-desktop.svg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: bottom;
-  width: 27%;
+  width: 40%;
   border-radius: 0.8rem;
   height: 100%;
 `;
@@ -24,10 +23,10 @@ function Nav() {
   return (
     <Wrap>
       <Box>
-        <Step num={1} contents="your info" isActive={true} />
-        <Step num={2} contents="select plan" />
-        <Step num={3} contents="add-ons" />
-        <Step num={4} contents="summary" />
+        <Step num={1} locate="/" contents="your info" isActive={true} />
+        <Step num={2} locate="/step2" contents="select plan" />
+        <Step num={3} locate="/step3" contents="add-ons" />
+        <Step num={4} locate="/step4" contents="summary" />
       </Box>
     </Wrap>
   );

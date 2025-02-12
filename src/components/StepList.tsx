@@ -2,10 +2,12 @@
 import React from "react";
 import styled from "styled-components";
 import { colorTheme } from "../styles/colorTheme";
+import { useNavigate } from "react-router-dom";
 
 interface IStep {
   num: number;
   contents: string;
+  locate: string;
   isActive?: boolean;
 }
 
@@ -13,6 +15,7 @@ interface IStep {
 const List = styled.li`
   display: flex;
   gap: 0.9rem;
+  cursor: pointer;
 
   div {
     color: ${colorTheme.white};
@@ -23,16 +26,21 @@ const List = styled.li`
     justify-content: space-between;
     font-size: 0.9rem;
 
+    p {
+      font-size: 0.8rem;
+      letter-spacing: 1.5px;
+    }
     small {
       font-weight: 300;
+      color: ${colorTheme.lightGray};
       font-size: 0.7rem;
     }
   }
 `;
 
 const Num = styled.span`
-  width: 2rem;
-  height: 2rem;
+  width: 1.9rem;
+  height: 1.9rem;
   border-radius: 50%;
   background-color: transparent;
   border: 1px solid ${colorTheme.white};
@@ -49,9 +57,12 @@ const ActiveNum = styled(Num)`
   color: black;
 `;
 
-function Step({ num, contents, isActive }: IStep) {
+function Step({ num, contents, isActive, locate }: IStep) {
+  const navigate = useNavigate();
+  const onGoTo = () => navigate(locate);
+
   return (
-    <List>
+    <List onClick={onGoTo}>
       {isActive ? <ActiveNum>{num}</ActiveNum> : <Num>{num}</Num>}
       <div>
         <small>step {num}</small>
