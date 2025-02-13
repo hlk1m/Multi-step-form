@@ -19,16 +19,16 @@ const Form = styled.form`
     display: none;
   }
 `;
-const Label = styled.label<{ isActive: boolean }>`
+const Label = styled.label<{ isactive: boolean }>`
   cursor: pointer;
   display: grid;
   grid-template-columns: 7% 80% 13%;
   background-color: ${(p) =>
-    p.isActive ? colorTheme.veryLightGray : "transparent"};
+    p.isactive ? colorTheme.veryLightGray : "transparent"};
   border-radius: 8px;
 
   border: 1px solid
-    ${(p) => (p.isActive ? colorTheme.blue : colorTheme.lightGray)};
+    ${(p) => (p.isactive ? colorTheme.blue : colorTheme.lightGray)};
 
   padding: 1rem;
   align-items: center;
@@ -40,7 +40,7 @@ const Label = styled.label<{ isActive: boolean }>`
     height: 1rem;
     border: 1px solid ${colorTheme.lightGray};
     border-radius: 4px;
-    background-color: ${(p) => (p.isActive ? colorTheme.blue : "transparent")};
+    background-color: ${(p) => (p.isactive ? colorTheme.blue : "transparent")};
 
     img {
       width: 75%;
@@ -84,7 +84,7 @@ function Three() {
         content="Add-ons help enhance your gaming experience."
       />
       <Form onSubmit={onSubmit}>
-        <Label htmlFor="online" isActive={true}>
+        <Label htmlFor="online" isactive={true}>
           <div>
             <img
               src="./src/assets/images/icon-checkmark.svg"
@@ -98,7 +98,7 @@ function Three() {
           <span>+$1/mo</span>
         </Label>
         <input type="checkbox" id="online" name="step3" onChange={onChange} />
-        <Label htmlFor="storage" isActive={isActive}>
+        <Label htmlFor="storage" isactive={isActive}>
           <div>
             <img
               src="./src/assets/images/icon-checkmark.svg"
@@ -112,7 +112,7 @@ function Three() {
           <span>+$2/mo</span>
         </Label>
         <input type="checkbox" id="storage" name="step3" onChange={onChange} />
-        <Label htmlFor="profile" isActive={isActive}>
+        <Label htmlFor="profile" isactive={isActive}>
           <div>
             <img
               src="./src/assets/images/icon-checkmark.svg"

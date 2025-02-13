@@ -23,10 +23,10 @@ function Nav() {
   return (
     <Wrap>
       <Box>
-        <Step num={1} locate="/" contents="your info" isActive={true} />
-        <Step num={2} locate="/step2" contents="select plan" />
-        <Step num={3} locate="/step3" contents="add-ons" />
-        <Step num={4} locate="/step4" contents="summary" />
+        <Step num={1} contents="your info" />
+        <Step num={2} contents="select plan" />
+        <Step num={3} contents="add-ons" />
+        <Step num={4} contents="summary" />
       </Box>
     </Wrap>
   );

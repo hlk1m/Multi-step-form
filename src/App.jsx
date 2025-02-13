@@ -1,13 +1,15 @@
-import { useState } from "react";
+import React from "react";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import One from "./pages/One";
 import Two from "./pages/Two";
 import Three from "./pages/Three";
 import Four from "./pages/Four";
 import Nav from "./components/Nav";
+import Five from "./pages/Five";
+import Buttons from "./components/Buttons";
+
 import styled from "styled-components";
 import { colorTheme } from "./styles/colorTheme";
-import Five from "./pages/Five";
 
 const Wrapper = styled.div`
   background-color: ${colorTheme.veryLightGray};
@@ -46,48 +48,25 @@ const MainForm = styled.main`
   justify-content: space-between;
 `;
 
-const BtnBox = styled.div`
-  width: 100%;
-  bottom: 2rem;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const NextBtn = styled.button`
-  padding: 0.6rem 0.9rem;
-  background-color: ${colorTheme.navy};
-  border-radius: 0.3rem;
-  color: white;
-  font-weight: 500;
-`;
-
-const PrevBtn = styled.button`
-  color: ${colorTheme.gray};
-  font-weight: 600;
-`;
-
 function App() {
   return (
-    <Wrapper>
-      <Router>
+    <Router>
+      <Wrapper>
         <Card>
           <Nav />
           <MainForm>
             <Routes>
-              <Route path="/" element={<One />} />
+              <Route path="/step1" element={<One />} />
               <Route path="/step2" element={<Two />} />
               <Route path="/step3" element={<Three />} />
               <Route path="/step4" element={<Four />} />
               <Route path="/step5" element={<Five />} />
             </Routes>
-            <BtnBox>
-              <PrevBtn>Go Back</PrevBtn>
-              <NextBtn>Next Step</NextBtn>
-            </BtnBox>
+            <Buttons />
           </MainForm>
         </Card>
-      </Router>
-    </Wrapper>
+      </Wrapper>
+    </Router>
   );
 }
 

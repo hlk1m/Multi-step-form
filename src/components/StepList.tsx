@@ -3,12 +3,12 @@ import React from "react";
 import styled from "styled-components";
 import { colorTheme } from "../styles/colorTheme";
 import { useNavigate } from "react-router-dom";
+import { useAtom } from "jotai";
+import { countStep } from "../jotai/atom";
 
 interface IStep {
   num: number;
   contents: string;
-  locate: string;
-  isActive?: boolean;
 }
 
 // Style
@@ -57,13 +57,17 @@ const ActiveNum = styled(Num)`
   color: black;
 `;
 
-function Step({ num, contents, isActive, locate }: IStep) {
+function Step({ num, contents }: IStep) {
   const navigate = useNavigate();
-  const onGoTo = () => navigate(locate);
+  const [step, setStep] = useAtom(countStep);
+  const onGoTo = () => {
+    setStep(num);
+    navigate(`/step${step}`);
+  };
 
   return (
     <List onClick={onGoTo}>
-      {isActive ? <ActiveNum>{num}</ActiveNum> : <Num>{num}</Num>}
+      {step === num ? <ActiveNum>{num}</ActiveNum> : <Num>{num}</Num>}
       <div>
         <small>step {num}</small>
         <p>{contents}</p>

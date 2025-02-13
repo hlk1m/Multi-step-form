@@ -65,7 +65,7 @@ const Btns = styled.div`
   }
 `;
 
-const ToggleBtn = styled.div<{ isYearly: boolean }>`
+const ToggleBtn = styled.div<{ isyearly: boolean }>`
   width: 2.5rem;
   height: 1.15rem;
   background-color: ${colorTheme.navy};
@@ -146,7 +146,7 @@ function Two() {
       </Form>
       <Btns>
         <button onClick={onToggleYearly}>Monthly</button>
-        <ToggleBtn isYearly={isYearly}></ToggleBtn>
+        <ToggleBtn isyearly={isYearly}></ToggleBtn>
         <button onClick={onToggleYearly}>Yearly</button>
       </Btns>
     </section>
