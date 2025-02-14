@@ -2,8 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import { colorTheme } from "../styles/colorTheme";
-import { useNavigate } from "react-router-dom";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { countStep } from "../jotai/atom";
 
 interface IStep {
@@ -15,7 +14,6 @@ interface IStep {
 const List = styled.li`
   display: flex;
   gap: 0.9rem;
-  cursor: pointer;
 
   div {
     color: ${colorTheme.white};
@@ -58,15 +56,10 @@ const ActiveNum = styled(Num)`
 `;
 
 function Step({ num, contents }: IStep) {
-  const navigate = useNavigate();
-  const [step, setStep] = useAtom(countStep);
-  const onGoTo = () => {
-    setStep(num);
-    navigate(`/step${step}`);
-  };
+  const step = useAtomValue(countStep);
 
   return (
-    <List onClick={onGoTo}>
+    <List>
       {step === num ? <ActiveNum>{num}</ActiveNum> : <Num>{num}</Num>}
       <div>
         <small>step {num}</small>

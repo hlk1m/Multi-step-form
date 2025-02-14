@@ -43,9 +43,6 @@ const MainForm = styled.main`
   padding-bottom: 1rem;
   width: 100%;
   padding-right: 8rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 `;
 
 function App() {
@@ -56,13 +53,12 @@ function App() {
           <Nav />
           <MainForm>
             <Routes>
-              <Route path="/step1" element={<One />} />
+              <Route path="/" element={<One />} />
               <Route path="/step2" element={<Two />} />
               <Route path="/step3" element={<Three />} />
               <Route path="/step4" element={<Four />} />
               <Route path="/step5" element={<Five />} />
             </Routes>
-            <Buttons />
           </MainForm>
         </Card>
       </Wrapper>
