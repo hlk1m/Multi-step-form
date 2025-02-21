@@ -1,8 +1,10 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
 import Heading from "../components/Heading";
 import styled from "styled-components";
 import { colorTheme } from "../styles/colorTheme";
 import Buttons from "../components/Buttons";
+import { useSetAtom } from "jotai";
+import { formData } from "../jotai/atom";
 
 interface IForm {
   name: string;
@@ -46,15 +48,28 @@ function One() {
     email: "",
     phone: "",
   });
+  const setFormData = useSetAtom(formData);
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.currentTarget.value);
+    const { value, id } = e.currentTarget;
+
+    setData((prev) => ({ ...prev, [id]: value }));
   };
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {};
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+
+    if (formRef.current) {
+      setFormData(data);
+      console.log(data);
+      formRef.current.submit();
+    }
+  };
 
   return (
-    <FormWrap>
+    <FormWrap ref={formRef}>
       <div>
         <Heading
           title="Personal info"
@@ -77,14 +92,14 @@ function One() {
           />
           <label htmlFor="phone">Phone Number</label>
           <input
-            type="text"
+            type="number"
             id="phone"
             onChange={onChange}
             placeholder="e.g. +1 234 567 890"
           />
         </Form>
       </div>
-      <Buttons data={data} />
+      <Buttons step={1} onSubmit={onSubmit} />
     </FormWrap>
   );
 }
