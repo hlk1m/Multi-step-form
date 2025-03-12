@@ -1,9 +1,10 @@
 // UI - Step List
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { colorTheme } from "../styles/colorTheme";
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { countStep } from "../jotai/atom";
+import { useLocation } from "react-router-dom";
 
 interface IStep {
   num: number;
@@ -56,7 +57,20 @@ const ActiveNum = styled(Num)`
 `;
 
 function Step({ num, contents }: IStep) {
-  const step = useAtomValue(countStep);
+  const [step, setStep] = useAtom(countStep);
+  const location = useLocation();
+
+  const path = location.pathname;
+
+  // Step과 현재 path를 일치시키기
+  useEffect(() => {
+    if (path === "/") {
+      return setStep(1);
+    } else if (path !== "/step" + step) {
+      const pathNum = path.slice(-1);
+      return setStep(Number(pathNum));
+    }
+  }, [location, step]);
 
   return (
     <List>

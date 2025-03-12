@@ -4,9 +4,9 @@ import { atom } from "jotai";
 
 export const countStep = atom<number>(1);
 
-export const isYearly = atom<boolean>(false);
+export const isYearly = atom(false);
 
-interface IFormData {
+export interface IFormData {
   name?: string;
   email?: string;
   phone?: string;
