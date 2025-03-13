@@ -6,11 +6,13 @@ import { countStep } from "../jotai/atom";
 import { useNavigate } from "react-router-dom";
 
 const BtnBox = styled.div`
+  position: absolute;
   width: 100%;
   bottom: 2rem;
+  right: 0%;
   display: flex;
   justify-content: space-between;
-  /* flex-direction: row-reverse; */
+  flex-direction: row-reverse;
 `;
 
 const NextBtn = styled.button`
@@ -36,7 +38,12 @@ function Buttons({ step, onSubmit }: IBtnProps) {
   const navigate = useNavigate();
 
   const goPrevPage = () => {
-    if (step <= 1) return;
+    if (step <= 1) {
+      return;
+    } else if (step === 2) {
+      setStep((prev) => prev - 1);
+      return navigate(`/`);
+    }
     setStep((prev) => prev - 1);
     navigate(`/step${step - 1}`);
   };

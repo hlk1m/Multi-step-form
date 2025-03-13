@@ -1,14 +1,14 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+// Step 2 Page
+
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Heading from "../components/Heading";
 import styled from "styled-components";
 import { colorTheme } from "../styles/colorTheme";
-
-const data = {};
-interface IForm {
-  arcade: string;
-  advanced: string;
-  pro: string;
-}
+import Buttons from "../components/Buttons";
+import { useAtom, useSetAtom } from "jotai";
+import { countStep, formData, isYearly } from "../jotai/atom";
+import { useNavigate } from "react-router-dom";
+import { FormWrap } from "./One";
 
 // Style
 const Form = styled.form`
@@ -21,16 +21,25 @@ const Form = styled.form`
   }
 `;
 
-const Label = styled.label`
+const Label = styled.label<{ ischecked: boolean }>`
+  cursor: pointer;
   width: 33%;
   height: 25vh;
   border-radius: 8px;
-  border: 2px solid ${colorTheme.lightGray};
+  border: 2px solid
+    ${({ ischecked }) => (ischecked ? colorTheme.blue : colorTheme.lightGray)};
+  background-color: ${({ ischecked }) =>
+    ischecked ? colorTheme.veryLightGray : colorTheme.white};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 1rem 0.8rem;
   font-weight: 500;
+  transition: border 0.3s ease;
+
+  &:hover {
+    border: 2px solid ${colorTheme.blue};
+  }
 
   img {
     width: 25%;
@@ -57,12 +66,13 @@ const Btns = styled.div`
   display: flex;
   justify-content: center;
   border-radius: 8px;
-
-  button {
-    font-weight: 500;
-    color: ${colorTheme.gray};
-    font-size: 0.8rem;
-  }
+  margin-bottom: 2rem;
+`;
+const Btn = styled.button<{ isyearly: boolean }>`
+  cursor: pointer;
+  font-weight: 500;
+  color: ${({ isyearly }) => (isyearly ? colorTheme.gray : colorTheme.navy)};
+  font-size: 0.8rem;
 `;
 
 const ToggleBtn = styled.div<{ isyearly: boolean }>`
@@ -75,42 +85,62 @@ const ToggleBtn = styled.div<{ isyearly: boolean }>`
   transition: background-color 0.3s ease;
   margin: 0 1rem;
 
-  &::after {
-    content: "";
-    width: 0.78rem;
-    height: 0.78rem;
-    background-color: white;
+  span {
+    width: 16px;
+    height: 16px;
+    background-color: ${colorTheme.white};
     border-radius: 50%;
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-50%)
+      ${({ isyearly }) => (isyearly ? "translateX(150%)" : "translateX(0)")};
+    transition: transform 0.25s ease;
     left: 4px;
-    transition: left 0.3s ease;
   }
 `;
 
 function Two() {
-  const [isYearly, setIsYearly] = useState<boolean>(false);
-  const [data, setData] = useState<IForm>({
-    arcade: "",
-    advanced: "",
-    pro: "",
-  });
+  const [data, setData] = useState<string>("arcade");
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {};
+  const [isYearlyData, setIsYearly] = useAtom(isYearly);
+  const setFormData = useSetAtom(formData);
+  const setStep = useSetAtom(countStep);
+  const navigation = useNavigate();
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {};
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const {
+      currentTarget: { id },
+    } = e;
+    setData(id);
+  };
 
-  const onToggleYearly = () => setIsYearly((prev) => !prev);
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    setFormData((prev) => ({
+      ...prev,
+      plan: data,
+    }));
+    console.log(formData);
+    setStep(3);
+    navigation("/step3");
+  };
+
+  const onToggle = () => setIsYearly((prev) => !prev);
+  const onToggleYearly = (value: boolean) => setIsYearly(value);
+
+  useEffect(() => {
+    console.log(isYearlyData);
+  }, [isYearlyData]);
+
   return (
-    <section>
+    <FormWrap>
       <Heading
         title="Select your plan"
         content="You have the option of monthly or yearly billing."
       />
 
       <Form onSubmit={onSubmit}>
-        <Label htmlFor="arcade">
+        <Label htmlFor="arcade" ischecked={data === "arcade" ? true : false}>
           <img
             src="./src/assets/images/icon-arcade.svg"
             alt="radio button thumnail"
@@ -121,7 +151,10 @@ function Two() {
           </div>
         </Label>
         <input type="radio" id="arcade" name="step2" onChange={onChange} />
-        <Label htmlFor="advanced">
+        <Label
+          htmlFor="advanced"
+          ischecked={data === "advanced" ? true : false}
+        >
           <img
             src="./src/assets/images/icon-advanced.svg"
             alt="radio button thumnail"
@@ -132,7 +165,7 @@ function Two() {
           </div>
         </Label>
         <input type="radio" id="advanced" name="step2" onChange={onChange} />
-        <Label htmlFor="pro">
+        <Label htmlFor="pro" ischecked={data === "pro" ? true : false}>
           <img
             src="./src/assets/images/icon-pro.svg"
             alt="radio button thumnail"
@@ -145,11 +178,18 @@ function Two() {
         <input type="radio" id="pro" name="step2" onChange={onChange} />
       </Form>
       <Btns>
-        <button onClick={onToggleYearly}>Monthly</button>
-        <ToggleBtn isyearly={isYearly}></ToggleBtn>
-        <button onClick={onToggleYearly}>Yearly</button>
+        <Btn onClick={() => onToggleYearly(false)} isyearly={isYearlyData}>
+          Monthly
+        </Btn>
+        <ToggleBtn isyearly={isYearlyData} onClick={onToggle}>
+          <span></span>
+        </ToggleBtn>
+        <Btn onClick={() => onToggleYearly(true)} isyearly={!isYearlyData}>
+          Yearly
+        </Btn>
       </Btns>
-    </section>
+      <Buttons onSubmit={onSubmit} step={2} />
+    </FormWrap>
   );
 }
 

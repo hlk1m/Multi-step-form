@@ -19,9 +19,7 @@ interface IForm {
 export const FormWrap = styled.section`
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  position: relative;
 `;
 
 const Form = styled.form`
@@ -46,14 +44,14 @@ const Form = styled.form`
   }
 `;
 
-const Input = styled.input<{ errorMessages: string | undefined }>`
+const Input = styled.input<{ errormessages: string | undefined }>`
   margin-top: 0.6rem;
   margin-bottom: 1rem;
   padding: 0.7rem;
   border: 1px solid ${colorTheme.lightGray};
   border-radius: 5px;
 
-  outline-color: ${(p) => (p.errorMessages ? colorTheme.red : "black")};
+  outline-color: ${(p) => (p.errormessages ? colorTheme.red : colorTheme.blue)};
 `;
 
 export const ErrorTxt = styled.p`
@@ -91,7 +89,7 @@ function One() {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <label htmlFor="name">Name</label>
           <Input
-            errorMessages={errors.name?.message}
+            errormessages={errors.name?.message}
             id="name"
             {...register("name", {
               required: "이름을 입력해주세요.",
@@ -102,7 +100,7 @@ function One() {
           {errors.name && <ErrorTxt>{errors.name.message}</ErrorTxt>}
           <label htmlFor="email">Email Address</label>
           <Input
-            errorMessages={errors.email?.message}
+            errormessages={errors.email?.message}
             type="email"
             id="email"
             {...register("email", {
@@ -117,7 +115,7 @@ function One() {
           {errors.email && <ErrorTxt>{errors.email.message}</ErrorTxt>}
           <label htmlFor="phone">Phone Number</label>
           <Input
-            errorMessages={errors.phone?.message}
+            errormessages={errors.phone?.message}
             type="number"
             id="phone"
             {...register("phone", {
