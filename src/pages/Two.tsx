@@ -24,7 +24,7 @@ const Form = styled.form`
 const Label = styled.label<{ ischecked: boolean }>`
   cursor: pointer;
   width: 33%;
-  height: 25vh;
+  height: 23vh;
   border-radius: 8px;
   border: 2px solid
     ${({ ischecked }) => (ischecked ? colorTheme.blue : colorTheme.lightGray)};
@@ -55,6 +55,11 @@ const Label = styled.label<{ ischecked: boolean }>`
       color: ${colorTheme.gray};
       font-size: 0.8rem;
       margin: 0.5rem 0;
+    }
+
+    p {
+      font-size: 0.8rem;
+      color: ${colorTheme.navy};
     }
   }
 `;
@@ -99,11 +104,25 @@ const ToggleBtn = styled.div<{ isyearly: boolean }>`
   }
 `;
 
+const price = {
+  yealy: {
+    arcade: "90",
+    advanced: "120",
+    pro: "150",
+  },
+  monthly: {
+    arcade: "",
+    advanced: "",
+    pro: "",
+  },
+};
+
 function Two() {
   const [data, setData] = useState<string>("arcade");
 
   const [isYearlyData, setIsYearly] = useAtom(isYearly);
   const setFormData = useSetAtom(formData);
+
   const setStep = useSetAtom(countStep);
   const navigation = useNavigate();
 
@@ -148,6 +167,7 @@ function Two() {
           <div>
             <span>Arcade</span>
             <small>$9/mo</small>
+            {isYearlyData ? <p>2 months free</p> : null}
           </div>
         </Label>
         <input type="radio" id="arcade" name="step2" onChange={onChange} />
@@ -162,6 +182,7 @@ function Two() {
           <div>
             <span>Advanced</span>
             <small>$12/mo</small>
+            {isYearlyData ? <p>2 months free</p> : null}
           </div>
         </Label>
         <input type="radio" id="advanced" name="step2" onChange={onChange} />
@@ -173,6 +194,7 @@ function Two() {
           <div>
             <span>Pro</span>
             <small>$15/mo</small>
+            {isYearlyData ? <p>2 months free</p> : null}
           </div>
         </Label>
         <input type="radio" id="pro" name="step2" onChange={onChange} />
